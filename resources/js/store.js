@@ -31,8 +31,19 @@ export default new Vuex.Store({
         }
     },
     actions: {
-        fetchTasks({commit}){
-            axios.get('/tasks')
+        fetchTasks({commit} ){
+            axios.get(`/tasks`)
+                .then( response =>{
+                    let tasks = response.data.response
+                    commit('SET_TASKS', tasks);
+
+                }).catch(error => {
+
+                console.error("Error adding task:", error);
+            });
+        },
+        filterTasks( {commit},status ){
+            axios.get(`/tasks/${status}`)
                 .then( response =>{
                     let tasks = response.data.response
                     commit('SET_TASKS', tasks);
@@ -61,6 +72,11 @@ export default new Vuex.Store({
 
                     console.error("Error adding task:", error);
                 });
+        },completeTask({ commit }, payload){
+            const { taskId, token } = payload;
+              axios.put(`/task/complete/${taskId}`).then(response=>{
+                      console.log(response.data)
+                  })
         },
         updateTask({ commit }, task) {
             axios.put(`/tasks/${task.id}`, task)

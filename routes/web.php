@@ -16,9 +16,14 @@ use App\Http\Controllers\TaskController;
 Route::get('/', function () {
     return view('tasks');
 });
-Route::resource('tasks', 'TaskController');
+
+Route::get('/tasks', [TaskController::class, 'index']);
+Route::get('/tasks/{status}', [TaskController::class, 'filter']);
+Route::post('/tasks', [TaskController::class, 'store']);
+Route::put('/task/complete/{id}', [TaskController::class, 'complete']);
+
 //Route::post('/tasks/store', [TaskController::class, 'store']);
-//Route::put('/tasks/{id}', [TaskController::class, 'update']);
+
 //Route::delete('/tasks/{id}', [TaskController::class, 'destroy']);
 
 Route::get('/csrf-token', function () {

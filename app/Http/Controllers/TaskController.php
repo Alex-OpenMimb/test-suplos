@@ -10,11 +10,29 @@ use Illuminate\Http\Request;
 
 class TaskController extends Controller
 {
+
+    ///Select record
     public function index(  )
     {
         try {
-            $query = '';
-            $tasks = $this->getTasks( $query );
+
+            $tasks = $this->getTasks( )->get();
+            return $this->responseMessage( $tasks, true, 200 );
+
+        }catch (\Exception $e){
+            $message = $e->getMessage();
+            return  $this->responseMessage( $message, false, 500 );
+        }
+    }
+
+
+    //Filter by staus
+
+    public function filter( $status )
+    {
+        try {
+            $tasks = $this->getTasks()
+                ->where('tasks.completed','like','%'.$status.'%')->get();
             return $this->responseMessage( $tasks, true, 200 );
 
         }catch (\Exception $e){
@@ -53,21 +71,21 @@ class TaskController extends Controller
        return Task::join('users','tasks.user_id','users.id')
             ->where('tasks.id',$task_id)
             ->select('users.name as user',
+                'tasks.id',
                 'tasks.title',
                 'tasks.description')
              ->get();
       }
 
-      protected function getTasks( $query )
+      protected function getTasks(  )
       {
           return Task::join('users','tasks.user_id','users.id')
-              ->orWhere('tasks.completed','like','%'.$query.'%')
               ->select('users.name as user',
                   'tasks.title',
                   'tasks.id',
                   'tasks.completed',
-                  'tasks.description')
-              ->get();
+                  'tasks.description');
+
       }
 
       protected function responseMessage( $message, $status, $code )
@@ -76,6 +94,16 @@ class TaskController extends Controller
               'response'     => $message,
               'status'      => $status,
               'code'        => $code,
+          ]);
+      }
+
+
+      public function complete( $id )
+      {
+          return response()->json([
+              'response'     => 'complete',
+              'status'      => true,
+              'code'        => 200,
           ]);
       }
 
