@@ -83,7 +83,7 @@ Recuerda que el objetivo es demostrar tu capacidad para depurar y mejorar códig
 ¡Buena suerte!
 
 **Correcciones**
-    Se cambia el nombre de la db=prueba-soporte en el .env.
+    Se cambia el nombre de la db=prueba-soporte en el .env. 
  1. La declaración de la foreign key user_id en la tabla task se elimina un método y se usa el adecuado.
  2. En el modelo task se agrega en las propiedades fillable la "completed"  y se cambia el método para la relación.
  3. En el controlador se eliminan las validaciones de los métodos, para validar se crea un Task Requestel cual valida por método del protocolo http y retorna un mensaje de error para darle manejo en el front.
@@ -104,7 +104,8 @@ Recuerda que el objetivo es demostrar tu capacidad para depurar y mejorar códig
     6.5. Se muestra el mensaje de error que podría ocurrir al crear una tarea.
     6.6. El action fetchTask es empleado en distintas partes para obtener la tarea cuando estás son afectas en la db.
 7. Se crea un seeder para los usuarios.
-8. Se el action para obtener las tareas en el hook mounted.
+8. Se utiliza el action "fetchTasks" para obtener las tareas en el hook mounted.
 9. Se utiliza un watch para hacer los filtros.
 10. Se corrige la vista blade del task.
+11. Se agrega variable SESSION_DOMAIN=null al .env para el manejo correcto de las sesiones en local.
 
