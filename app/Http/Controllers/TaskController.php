@@ -104,7 +104,12 @@ class TaskController extends Controller
     public function update(TaskRequest $request,Task $task)
     {
         try {
-            $task->update( $request->all() );
+            $user_id = User::where('email',$request['email'])->first()->id;
+            $task->update( [
+                'title'       => $request['title'],
+                'description' => $request['description'],
+                'user_id'     =>  $user_id
+            ]);
             return $this->responseMessage( 'Task updated successfully.', true, 200 );
         }catch (\Exception $e){
             $message = $e->getMessage();

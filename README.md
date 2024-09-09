@@ -106,3 +106,5 @@ Backend
 7. Se crea un seeder para los usuarios.
 8. Se el action para obtener las tareas en el hook mounted.
 9. Se utiliza un watch para hacer los filtros.
+10. Se corrige la vista blade del task.
+11. Se cambia el nombre de la db=prueba-soporte,  ven .env.
