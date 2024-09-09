@@ -54,6 +54,9 @@
                     </tr>
                     </thead>
                     <tbody>
+                    <div v-if="tasksList.length === 0" class="d-flex justify-content-center align-items-center">
+                        <p class="text-center">Sin Tareas</p>
+                    </div>
                     <tr v-for="task in tasksList" :key="task.id" >
                         <td>{{ task.id }}</td>
                         <td>{{ task.title }}</td>

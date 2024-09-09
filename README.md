@@ -103,3 +103,4 @@ Backend
     6.4.Se agrega una validación para el email.
     6.5. Se muestra el mensaje de error que podría ocurrir al crear una tarea.
     6.6. El action fetchTask es empleado en distintas partes para obtener la tarea cuando estás son afectas en la db.
+7. Se crea un seeder para los usuarios.

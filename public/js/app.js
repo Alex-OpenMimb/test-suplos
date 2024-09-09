@@ -2076,7 +2076,11 @@ var render = function render() {
     }
   }, [_vm._v("No completed")])])]), _vm._v(" "), _c("table", {
     staticClass: "table table-bordered mt-5"
-  }, [_vm._m(0), _vm._v(" "), _c("tbody", _vm._l(_vm.tasksList, function (task) {
+  }, [_vm._m(0), _vm._v(" "), _c("tbody", [_vm.tasksList.length === 0 ? _c("div", {
+    staticClass: "d-flex justify-content-center align-items-center"
+  }, [_c("p", {
+    staticClass: "text-center"
+  }, [_vm._v("Sin Tareas")])]) : _vm._e(), _vm._v(" "), _vm._l(_vm.tasksList, function (task) {
     return _c("tr", {
       key: task.id
     }, [_c("td", [_vm._v(_vm._s(task.id))]), _vm._v(" "), _c("td", [_vm._v(_vm._s(task.title))]), _vm._v(" "), _c("td", [_vm._v(_vm._s(task.description))]), _vm._v(" "), _c("td", [_vm._v(_vm._s(task.user))]), _vm._v(" "), _c("td", {
@@ -2094,7 +2098,7 @@ var render = function render() {
         }
       }
     }, [_vm._v("\n                        update\n                    ")])])]);
-  }), 0)])]), _vm._v(" "), _c("div", {
+  })], 2)])]), _vm._v(" "), _c("div", {
     staticClass: "modal fade",
     attrs: {
       id: "myModal"
@@ -2248,7 +2252,7 @@ __webpack_require__.r(__webpack_exports__);
 
 vue__WEBPACK_IMPORTED_MODULE_3__["default"].use(vuex__WEBPACK_IMPORTED_MODULE_4__["default"]);
 // Configuración global de Axios
-//let token = document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+
 console.log(window.myToken.csrfToken);
 (axios__WEBPACK_IMPORTED_MODULE_2___default().defaults).baseURL = 'http://127.0.0.1:8000'; // Cambia esto a tu URL base si es necesario
 (axios__WEBPACK_IMPORTED_MODULE_2___default().defaults).headers.common['X-Requested-With'] = 'XMLHttpRequest';
