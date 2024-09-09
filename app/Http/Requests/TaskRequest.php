@@ -27,10 +27,11 @@ class TaskRequest extends FormRequest
     {
         switch ( $this->method() ){
             case 'POST':
+            case 'PUT':
                 return [
                     'title'         => 'required|max:255',
                     'description'   => 'required|max:500',
-                    'user'          =>  'required|email|max:190|exists:users,email',
+                    'email'         =>  'required|email|max:190|exists:users,email',
                 ];
                 break;
         }

@@ -1813,22 +1813,24 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
       newTask: {
         title: '',
         description: '',
-        user: ''
+        email: ''
       },
       token: '',
-      completed: 'all'
+      completed: 'all',
+      taskId: 0,
+      selectedTask: {}
     };
   },
   computed: _objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_0__.mapState)(['tasks', 'errorMessage', 'tasksList'])),
-  methods: _objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_0__.mapActions)(['fetchTasks', 'addTask', 'completeTask', 'deleteTask', 'filterTasks'])), {}, {
+  methods: _objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_0__.mapActions)(['fetchTasks', 'addTask', 'completeTask', 'deleteTask', 'filterTasks', 'updateTask'])), {}, {
     addTask: function addTask() {
       var _this = this;
       var emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-      if (!this.newTask.title || !this.newTask.description || !this.newTask.user) {
+      if (!this.newTask.title || !this.newTask.description || !this.newTask.email) {
         alert('Both title and description are required');
         return;
       }
-      if (!emailRegex.test(this.newTask.user)) {
+      if (!emailRegex.test(this.newTask.email)) {
         alert('Email invalid');
         return;
       }
@@ -1849,6 +1851,7 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
 
       this.$store.dispatch('completeTask', taskId).then(function () {
         _this2.$store.dispatch('fetchTasks');
+        document.getElementById('');
       })["catch"](function (error) {
         console.error('Error completing task:', error);
       });
@@ -1860,6 +1863,24 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
         _this3.$store.dispatch('fetchTasks');
       })["catch"](function (error) {
         console.error('Error completing task:', error);
+      });
+    },
+    setTask: function setTask(task) {
+      this.selectedTask = _objectSpread({}, task);
+      console.log(task.title);
+    },
+    updateTask: function updateTask() {
+      var _this4 = this;
+      var emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!this.selectedTask.title || !this.selectedTask.description || !this.selectedTask.email) {
+        alert('Both title and description are required');
+        return;
+      }
+      this.$store.dispatch('updateTask', this.selectedTask).then(function () {
+        $('#myModal').modal('hide');
+        _this4.$store.dispatch('fetchTasks');
+      })["catch"](function (error) {
+        console.error('Error adding task:', error);
       });
     }
   }),
@@ -1986,8 +2007,8 @@ var render = function render() {
     directives: [{
       name: "model",
       rawName: "v-model",
-      value: _vm.newTask.user,
-      expression: "newTask.user"
+      value: _vm.newTask.email,
+      expression: "newTask.email"
     }],
     staticClass: "form-control",
     attrs: {
@@ -1995,12 +2016,12 @@ var render = function render() {
       required: ""
     },
     domProps: {
-      value: _vm.newTask.user
+      value: _vm.newTask.email
     },
     on: {
       input: function input($event) {
         if ($event.target.composing) return;
-        _vm.$set(_vm.newTask, "user", $event.target.value);
+        _vm.$set(_vm.newTask, "email", $event.target.value);
       }
     }
   })]), _vm._v(" "), _c("button", {
@@ -2059,28 +2080,20 @@ var render = function render() {
   }, [_vm._m(0), _vm._v(" "), _c("tbody", _vm._l(_vm.tasksList, function (task) {
     return _c("tr", {
       key: task.id
-    }, [_c("td", [_vm._v(_vm._s(task.id))]), _vm._v(" "), _c("td", [_vm._v(_vm._s(task.title))]), _vm._v(" "), _c("td", [_vm._v(_vm._s(task.description))]), _vm._v(" "), _c("td", [_vm._v(_vm._s(task.user))]), _vm._v(" "), _c("td", [_vm._v(_vm._s(task.completed ? "Completed" : "Not Completed"))]), _vm._v(" "), _vm._m(1, true)]);
-  }), 0)])]), _vm._v(" "), _vm._m(2)]);
-};
-var staticRenderFns = [function () {
-  var _vm = this,
-    _c = _vm._self._c;
-  return _c("thead", [_c("tr", [_c("th", [_vm._v("#")]), _vm._v(" "), _c("th", [_vm._v("Title")]), _vm._v(" "), _c("th", [_vm._v("Description")]), _vm._v(" "), _c("th", [_vm._v("User")]), _vm._v(" "), _c("th", [_vm._v("Status")]), _vm._v(" "), _c("th", [_vm._v("Actions")])])]);
-}, function () {
-  var _vm = this,
-    _c = _vm._self._c;
-  return _c("td", [_c("button", {
-    staticClass: "btn btn-primary",
-    attrs: {
-      type: "button",
-      "data-toggle": "modal",
-      "data-target": "#myModal"
-    }
-  }, [_vm._v("\n                        update\n                    ")])]);
-}, function () {
-  var _vm = this,
-    _c = _vm._self._c;
-  return _c("div", {
+    }, [_c("td", [_vm._v(_vm._s(task.id))]), _vm._v(" "), _c("td", [_vm._v(_vm._s(task.title))]), _vm._v(" "), _c("td", [_vm._v(_vm._s(task.description))]), _vm._v(" "), _c("td", [_vm._v(_vm._s(task.user))]), _vm._v(" "), _c("td", [_vm._v(_vm._s(task.completed ? "Completed" : "Not Completed"))]), _vm._v(" "), _c("td", [_c("button", {
+      staticClass: "btn btn-primary",
+      attrs: {
+        type: "button",
+        "data-toggle": "modal",
+        "data-target": "#myModal"
+      },
+      on: {
+        click: function click($event) {
+          return _vm.setTask(task);
+        }
+      }
+    }, [_vm._v("\n                        update\n                    ")])])]);
+  }), 0)])]), _vm._v(" "), _c("div", {
     staticClass: "modal fade",
     attrs: {
       id: "myModal"
@@ -2089,7 +2102,102 @@ var staticRenderFns = [function () {
     staticClass: "modal-dialog"
   }, [_c("div", {
     staticClass: "modal-content"
+  }, [_vm._m(1), _vm._v(" "), _c("div", {
+    staticClass: "modal-body"
+  }, [_c("form", {
+    staticClass: "card card-body",
+    on: {
+      submit: function submit($event) {
+        $event.preventDefault();
+        return _vm.updateTask.apply(null, arguments);
+      }
+    }
   }, [_c("div", {
+    staticClass: "form-group"
+  }, [_c("input", {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: _vm.selectedTask.title,
+      expression: "selectedTask.title"
+    }],
+    staticClass: "form-control",
+    attrs: {
+      placeholder: "Task Title",
+      required: ""
+    },
+    domProps: {
+      value: _vm.selectedTask.title
+    },
+    on: {
+      input: function input($event) {
+        if ($event.target.composing) return;
+        _vm.$set(_vm.selectedTask, "title", $event.target.value);
+      }
+    }
+  })]), _vm._v(" "), _c("div", {
+    staticClass: "form-group"
+  }, [_c("input", {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: _vm.selectedTask.description,
+      expression: "selectedTask.description"
+    }],
+    staticClass: "form-control",
+    attrs: {
+      placeholder: "Task Description",
+      required: ""
+    },
+    domProps: {
+      value: _vm.selectedTask.description
+    },
+    on: {
+      input: function input($event) {
+        if ($event.target.composing) return;
+        _vm.$set(_vm.selectedTask, "description", $event.target.value);
+      }
+    }
+  })]), _vm._v(" "), _c("div", {
+    staticClass: "form-group"
+  }, [_c("input", {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: _vm.selectedTask.email,
+      expression: "selectedTask.email"
+    }],
+    staticClass: "form-control",
+    attrs: {
+      placeholder: "Assigned User",
+      required: ""
+    },
+    domProps: {
+      value: _vm.selectedTask.email
+    },
+    on: {
+      input: function input($event) {
+        if ($event.target.composing) return;
+        _vm.$set(_vm.selectedTask, "email", $event.target.value);
+      }
+    }
+  })]), _vm._v(" "), _c("button", {
+    staticClass: "btn btn-primary btn-block",
+    attrs: {
+      type: "submit"
+    }
+  }, [_vm._v("Add Task")])])]), _vm._v(" "), _vm.errorMessage ? _c("div", {
+    staticClass: "error-message text-center text-danger"
+  }, [_vm._v("\n                    " + _vm._s(_vm.errorMessage) + "\n                ")]) : _vm._e(), _vm._v(" "), _vm._m(2)])])])]);
+};
+var staticRenderFns = [function () {
+  var _vm = this,
+    _c = _vm._self._c;
+  return _c("thead", [_c("tr", [_c("th", [_vm._v("#")]), _vm._v(" "), _c("th", [_vm._v("Title")]), _vm._v(" "), _c("th", [_vm._v("Description")]), _vm._v(" "), _c("th", [_vm._v("User")]), _vm._v(" "), _c("th", [_vm._v("Status")]), _vm._v(" "), _c("th", [_vm._v("Actions")])])]);
+}, function () {
+  var _vm = this,
+    _c = _vm._self._c;
+  return _c("div", {
     staticClass: "modal-header"
   }, [_c("h4", {
     staticClass: "modal-title"
@@ -2099,9 +2207,11 @@ var staticRenderFns = [function () {
       type: "button",
       "data-dismiss": "modal"
     }
-  }, [_vm._v("×")])]), _vm._v(" "), _c("div", {
-    staticClass: "modal-body"
-  }, [_vm._v("\n                    Modal body text goes here.\n                ")]), _vm._v(" "), _c("div", {
+  }, [_vm._v("×")])]);
+}, function () {
+  var _vm = this,
+    _c = _vm._self._c;
+  return _c("div", {
     staticClass: "modal-footer"
   }, [_c("button", {
     staticClass: "btn btn-danger",
@@ -2109,7 +2219,7 @@ var staticRenderFns = [function () {
       type: "button",
       "data-dismiss": "modal"
     }
-  }, [_vm._v("Close")])])])])]);
+  }, [_vm._v("Close")])]);
 }];
 render._withStripped = true;
 
@@ -2247,15 +2357,18 @@ vue__WEBPACK_IMPORTED_MODULE_1__["default"].use(vuex__WEBPACK_IMPORTED_MODULE_2_
     },
     updateTask: function updateTask(_ref5, task) {
       var commit = _ref5.commit;
-      axios__WEBPACK_IMPORTED_MODULE_0___default().put("/tasks/".concat(task.id), task).then(function (response) {
-        commit('UPDATE_TASK', response.data);
+      axios__WEBPACK_IMPORTED_MODULE_0___default().put("/task/".concat(task.id), task).then(function (response) {
+        if (!response.data.status) {
+          var msm = response.data.response;
+          commit('SET_ERROR_MESSAGE', msm);
+        }
       })["catch"](function (error) {
         console.error("Error updating task:", error);
       });
     },
     deleteTask: function deleteTask(_ref6, taskId) {
       var commit = _ref6.commit;
-      axios__WEBPACK_IMPORTED_MODULE_0___default()["delete"]("/tasks/".concat(taskId)).then(function () {
+      axios__WEBPACK_IMPORTED_MODULE_0___default()["delete"]("/task/".concat(taskId)).then(function () {
         commit('DELETE_TASK', taskId);
       })["catch"](function (error) {
         console.error("Error deleting task:", error);

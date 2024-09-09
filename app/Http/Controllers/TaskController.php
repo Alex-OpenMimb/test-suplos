@@ -47,7 +47,7 @@ class TaskController extends Controller
     {
         try {
 
-            $user_id = User::where('email',$request['user'])->first()->id;
+            $user_id = User::where('email',$request['email'])->first()->id;
             $task =  Task::create([
                 'title' => $request['title'],
                 'description' => $request['description'],
@@ -71,6 +71,7 @@ class TaskController extends Controller
        return Task::join('users','tasks.user_id','users.id')
             ->where('tasks.id',$task_id)
             ->select('users.name as user',
+                'users.email',
                 'tasks.id',
                 'tasks.title',
                 'tasks.description')
@@ -81,6 +82,7 @@ class TaskController extends Controller
       {
           return Task::join('users','tasks.user_id','users.id')
               ->select('users.name as user',
+                  'users.email',
                   'tasks.title',
                   'tasks.id',
                   'tasks.completed',
@@ -112,23 +114,16 @@ class TaskController extends Controller
 
 
     // Actualizar tarea
-    public function update(Request $request, $id)
+    public function update(TaskRequest $request,Task $task)
     {
-
-        $validated = $request->validate([
-            'title' => 'required|max:255',
-            'description' => 'required|max:500',
-        ]);
-
-        $task = Task::find($id);
-
-        if(!$task) {
-            return redirect()->back()->with('error', 'Task not found.');
+        try {
+            $task->update( $request->all() );
+            return $this->responseMessage( 'Task updated successfully.', true, 200 );
+        }catch (\Exception $e){
+            $message = $e->getMessage();
+            return  $this->responseMessage( $message, false, 500 );
         }
 
-        // Corrección: Se actualiza la tarea con datos validados.
-        $task->update($validated);
-        return redirect()->back()->with('success', 'Task updated successfully.');
     }
 
     // Eliminar tarea

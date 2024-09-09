@@ -24,7 +24,7 @@
                         <input v-model="newTask.description" class="form-control" placeholder="Task Description" required>
                     </div>
                     <div class="form-group">
-                        <input v-model="newTask.user" class="form-control" placeholder="Assigned User" required>
+                        <input v-model="newTask.email" class="form-control" placeholder="Assigned User" required>
                     </div>
                     <button type="submit" class="btn btn-primary btn-block">Add Task</button>
                 </form>
@@ -60,7 +60,7 @@
                         <td>{{ task.description }}</td>
                         <td>{{ task.user }}</td>
                         <td>{{ task.completed ? 'Completed' : 'Not Completed' }}</td>
-                        <td> <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">
+                        <td> <button   @click="setTask(task)" type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">
                             update
                         </button>
                         </td>
@@ -85,9 +85,22 @@
 
                     <!-- Modal Body -->
                     <div class="modal-body">
-                        Modal body text goes here.
+                        <form @submit.prevent="updateTask" class="card card-body">
+                            <div class="form-group">
+                                <input v-model="selectedTask.title" class="form-control" placeholder="Task Title" required>
+                            </div>
+                            <div class="form-group">
+                                <input v-model="selectedTask.description" class="form-control" placeholder="Task Description" required>
+                            </div>
+                            <div class="form-group">
+                                <input v-model="selectedTask.email" class="form-control" placeholder="Assigned User" required>
+                            </div>
+                            <button type="submit" class="btn btn-primary btn-block">Add Task</button>
+                        </form>
                     </div>
-
+                    <div v-if="errorMessage" class="error-message text-center text-danger">
+                        {{ errorMessage }}
+                    </div>
                     <!-- Modal Footer -->
                     <div class="modal-footer">
                         <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
@@ -111,10 +124,12 @@ export default {
             newTask: {
                 title: '',
                 description: '',
-                user: ''
+                email: '',
             },
             token:'',
-            completed:'all'
+            completed:'all',
+            taskId:0,
+            selectedTask: {}
 
         };
     },
@@ -122,15 +137,15 @@ export default {
         ...mapState(['tasks','errorMessage','tasksList']) // Simplificado para mapState
     },
     methods: {
-        ...mapActions(['fetchTasks', 'addTask', 'completeTask', 'deleteTask','filterTasks']),
+        ...mapActions(['fetchTasks', 'addTask', 'completeTask', 'deleteTask','filterTasks','updateTask']),
         addTask() {
             const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-            if (!this.newTask.title || !this.newTask.description || !this.newTask.user) {
+            if (!this.newTask.title || !this.newTask.description || !this.newTask.email) {
                 alert('Both title and description are required');
                 return;
             }
 
-            if(!emailRegex.test(this.newTask.user)){
+            if(!emailRegex.test(this.newTask.email)){
                 alert('Email invalid');
                 return;
             }
@@ -152,6 +167,7 @@ export default {
 
             this.$store.dispatch('completeTask',  taskId).then(()=>{
                 this.$store.dispatch('fetchTasks')
+                document.getElementById('')
             }).catch(error => {
                 console.error('Error completing task:', error);
             });
@@ -163,6 +179,25 @@ export default {
             }).catch(error => {
                 console.error('Error completing task:', error);
             });
+        },
+        setTask(task){
+            this.selectedTask = { ...task };
+            console.log( task.title )
+        },
+        updateTask(){
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!this.selectedTask.title || !this.selectedTask.description || !this.selectedTask.email) {
+                alert('Both title and description are required');
+                return;
+            }
+
+            this.$store.dispatch('updateTask', this.selectedTask ).then(() => {
+                  $('#myModal').modal('hide');
+                this.$store.dispatch('fetchTasks')
+            }).catch(error => {
+                console.error('Error adding task:', error);
+            });
+
         }
     },
     mounted() {

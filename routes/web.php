@@ -21,8 +21,9 @@ Route::get('/tasks', [TaskController::class, 'index']);
 Route::get('/tasks/{status}', [TaskController::class, 'filter']);
 Route::post('/tasks', [TaskController::class, 'store']);
 Route::put('/task/complete/{task}', [TaskController::class, 'complete']);
-Route::delete('/tasks/{task}', [TaskController::class, 'destroy']);
-//Route::post('/tasks/store', [TaskController::class, 'store']);
+Route::put('/task/{task}', [TaskController::class, 'update']);
+Route::delete('/task/{task}', [TaskController::class, 'destroy']);
+
 
 
 

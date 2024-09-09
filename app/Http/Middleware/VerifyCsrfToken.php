@@ -2,6 +2,9 @@
 
 namespace App\Http\Middleware;
 
+use Closure;
+use Illuminate\Support\Facades\Log;
+
 use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken as Middleware;
 
 class VerifyCsrfToken extends Middleware
@@ -13,7 +16,9 @@ class VerifyCsrfToken extends Middleware
      */
     protected $except = [
         '/tasks',
-        'task/complete/6',
-        '/tasks/6'
+        'task/complete/8',
+        '/task/8',
+        '/task/1'
     ];
+
 }

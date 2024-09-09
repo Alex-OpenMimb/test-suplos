@@ -78,16 +78,21 @@ export default new Vuex.Store({
                   })
         },
         updateTask({ commit }, task) {
-            axios.put(`/tasks/${task.id}`, task)
+
+            axios.put(`/task/${task.id}`, task)
                 .then(response => {
-                    commit('UPDATE_TASK', response.data);
+                    if( !response.data.status ){
+                        let msm = response.data.response
+                        commit('SET_ERROR_MESSAGE', msm )
+
+                    }
                 })
                 .catch(error => {
                     console.error("Error updating task:", error);
                 });
         },
         deleteTask({ commit }, taskId) {
-            axios.delete(`/tasks/${taskId}`)
+            axios.delete(`/task/${taskId}`)
                 .then(() => {
                     commit('DELETE_TASK', taskId);
                 })
