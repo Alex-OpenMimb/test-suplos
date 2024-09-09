@@ -15,16 +15,13 @@ class VerifyCsrfToken extends Middleware
      * @var array
      */
     protected $except = [
-        '/tasks',
-        'task/complete/1',
-        'task/complete/2',
-        'task/complete/3',
-        'task/complete/4',
-        '/task/1',
-        '/task/2',
-        '/task/3',
-        '/task/4',
-        '/task/5',
-    ];
 
+    ];
+    public function handle($request, Closure $next)
+    {
+        // Agrega logging para depurar el token CSRF
+        Log::info('CSRF Token:', ['token' => $request->header('X-CSRF-TOKEN')]);
+
+        return parent::handle($request, $next);
+    }
 }

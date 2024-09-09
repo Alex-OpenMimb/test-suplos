@@ -25,9 +25,3 @@ Route::put('/task/{task}', [TaskController::class, 'update']);
 Route::delete('/task/{task}', [TaskController::class, 'destroy']);
 
 
-
-
-Route::get('/csrf-token', function () {
-    return response()->json(['token' => csrf_token()]);
-});
-

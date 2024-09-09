@@ -7,10 +7,9 @@
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <title>Task List</title>
     <script>
-        // rename myToken as you like
-        window.myToken =  <?php echo json_encode([
-            'csrfToken' => csrf_token(),
-        ]); ?>
+        window.myToken = {
+            csrfToken: "{{ csrf_token() }}"
+        };
     </script>
 </head>
 <body>
