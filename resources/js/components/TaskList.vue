@@ -59,7 +59,8 @@
                         <td>{{ task.title }}</td>
                         <td>{{ task.description }}</td>
                         <td>{{ task.user }}</td>
-                        <td>{{ task.completed ? 'Completed' : 'Not Completed' }}</td>
+                        <td  :class="task.completed ? 'text-primary' : 'text-danger'"
+                         >{{ task.completed ? 'Completed' : 'Not Completed' }}</td>
                         <td> <button   @click="setTask(task)" type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">
                             update
                         </button>
@@ -128,7 +129,6 @@ export default {
             },
             token:'',
             completed:'all',
-            taskId:0,
             selectedTask: {}
 
         };

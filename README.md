@@ -84,5 +84,22 @@ Recuerda que el objetivo es demostrar tu capacidad para depurar y mejorar códig
 
 **Correcciones**
 Backend
- 1. La declaración de la foreign key user_id en la tabla task usa una sintaxis incompleta, se cambia por un metódos menos verboso.
- 2. 
+ 1. La declaración de la foreign key user_id en la tabla task se elimina un método y se usa el adecuado.
+ 2. En el modelo task se agrega en las propiedades fillable la "completed" 
+ 3. En el controlador se eliminan las validaciones de los métodos, para validar se crea un Task Requestel cual valida por método del protocolo http y retorna un mensaje de error para darle manejo en el front.
+ 4. En el taskController:
+     4.1. Se agrega el método para completar la tarea, filtrar y listar.
+     4.2. Los métodos existentes se optimizan utilizando inyeción de depencia.
+     4.3. Se crea un método para manjear las respuestas.
+     4.4. En el método create se retorna la tarea creada con el nombre del usuario, el cuál se obtiene con una cossulta.
+5. En Sotorage:
+    5.1. Se crea una mutación para mostrar los errores, SET_ERROR_MESSAGE.
+    5.2. Se crea la mutación SET_TASKS para agregar las tareas que se listarán en la interfaz.
+    5.3. La mutacion addTask se obtiene la tarea creada para visualizar en el componente.
+6. En el Componente.
+    6.1 se crea la propiedad "completed" para manejar el filtro de las tareas.
+    6.2 Se crea una tabla la cual rednderiza los datos con "tasksList".
+    6.3 Se crea un modal el cual utiliza "selectedTask" para renderizar la tarea a editar.
+    6.4.Se agrega una validación para el email.
+    6.5. Se muestra el mensaje de error que podría ocurrir al crear una tarea.
+    6.6. El action fetchTask es empleado en distintas partes para obtener la tarea cuando estás son afectas en la db.

@@ -58,7 +58,6 @@ export default new Vuex.Store({
                 .then(response => {
 
                     if( response.data.status ){
-                        console.log(response.data.response[0])
                         let task = response.data.response[0]
                         commit('ADD_TASK', task);
                     }else{

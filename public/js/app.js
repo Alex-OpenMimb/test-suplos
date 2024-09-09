@@ -1817,7 +1817,6 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
       },
       token: '',
       completed: 'all',
-      taskId: 0,
       selectedTask: {}
     };
   },
@@ -2080,7 +2079,9 @@ var render = function render() {
   }, [_vm._m(0), _vm._v(" "), _c("tbody", _vm._l(_vm.tasksList, function (task) {
     return _c("tr", {
       key: task.id
-    }, [_c("td", [_vm._v(_vm._s(task.id))]), _vm._v(" "), _c("td", [_vm._v(_vm._s(task.title))]), _vm._v(" "), _c("td", [_vm._v(_vm._s(task.description))]), _vm._v(" "), _c("td", [_vm._v(_vm._s(task.user))]), _vm._v(" "), _c("td", [_vm._v(_vm._s(task.completed ? "Completed" : "Not Completed"))]), _vm._v(" "), _c("td", [_c("button", {
+    }, [_c("td", [_vm._v(_vm._s(task.id))]), _vm._v(" "), _c("td", [_vm._v(_vm._s(task.title))]), _vm._v(" "), _c("td", [_vm._v(_vm._s(task.description))]), _vm._v(" "), _c("td", [_vm._v(_vm._s(task.user))]), _vm._v(" "), _c("td", {
+      "class": task.completed ? "text-primary" : "text-danger"
+    }, [_vm._v(_vm._s(task.completed ? "Completed" : "Not Completed"))]), _vm._v(" "), _c("td", [_c("button", {
       staticClass: "btn btn-primary",
       attrs: {
         type: "button",
@@ -2337,7 +2338,6 @@ vue__WEBPACK_IMPORTED_MODULE_1__["default"].use(vuex__WEBPACK_IMPORTED_MODULE_2_
       var commit = _ref3.commit;
       axios__WEBPACK_IMPORTED_MODULE_0___default().post('/tasks', task).then(function (response) {
         if (response.data.status) {
-          console.log(response.data.response[0]);
           var _task = response.data.response[0];
           commit('ADD_TASK', _task);
         } else {

@@ -12,11 +12,11 @@ class TaskController extends Controller
 {
 
     ///Select record
-    public function index(  )
+    public function index()
     {
         try {
 
-            $tasks = $this->getTasks( )->get();
+            $tasks = $this->getTasks()->get();
             return $this->responseMessage( $tasks, true, 200 );
 
         }catch (\Exception $e){
@@ -78,7 +78,7 @@ class TaskController extends Controller
              ->get();
       }
 
-      protected function getTasks(  )
+      protected function getTasks()
       {
           return Task::join('users','tasks.user_id','users.id')
               ->select('users.name as user',
