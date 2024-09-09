@@ -83,9 +83,9 @@ Recuerda que el objetivo es demostrar tu capacidad para depurar y mejorar códig
 ¡Buena suerte!
 
 **Correcciones**
-Backend
+    Se cambia el nombre de la db=prueba-soporte en el .env.
  1. La declaración de la foreign key user_id en la tabla task se elimina un método y se usa el adecuado.
- 2. En el modelo task se agrega en las propiedades fillable la "completed" 
+ 2. En el modelo task se agrega en las propiedades fillable la "completed"  y se cambia el método para la relación.
  3. En el controlador se eliminan las validaciones de los métodos, para validar se crea un Task Requestel cual valida por método del protocolo http y retorna un mensaje de error para darle manejo en el front.
  4. En el taskController:
      4.1. Se agrega el método para completar la tarea, filtrar y listar.
@@ -107,4 +107,4 @@ Backend
 8. Se el action para obtener las tareas en el hook mounted.
 9. Se utiliza un watch para hacer los filtros.
 10. Se corrige la vista blade del task.
-11. Se cambia el nombre de la db=prueba-soporte,  ven .env.
+
