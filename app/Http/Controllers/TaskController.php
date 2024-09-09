@@ -54,7 +54,7 @@ class TaskController extends Controller
                 'user_id' =>  $user_id
             ]);
 
-            $data = $this->getTaskById( $task->id );
+            $data = $this->getTasks()->where('tasks.id',$task->id)->get();
 
             return $this->responseMessage( $data, true, 200 );
 
@@ -64,19 +64,6 @@ class TaskController extends Controller
         }
 
     }
-
-
-    protected  function getTaskById( $task_id )
-    {
-       return Task::join('users','tasks.user_id','users.id')
-            ->where('tasks.id',$task_id)
-            ->select('users.name as user',
-                'users.email',
-                'tasks.id',
-                'tasks.title',
-                'tasks.description')
-             ->get();
-      }
 
       protected function getTasks()
       {
