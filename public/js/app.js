@@ -1815,7 +1815,6 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
         description: '',
         email: ''
       },
-      token: '',
       completed: 'all',
       selectedTask: {}
     };
@@ -1884,7 +1883,6 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
     }
   }),
   mounted: function mounted() {
-    ///this.token = document.querySelector('meta[name="csrf-token"]').getAttribute('content')
     this.$store.dispatch('fetchTasks');
   },
   watch: {

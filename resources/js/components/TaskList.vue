@@ -130,7 +130,6 @@ export default {
                 description: '',
                 email: '',
             },
-            token:'',
             completed:'all',
             selectedTask: {}
 
@@ -204,7 +203,6 @@ export default {
         }
     },
     mounted() {
-          ///this.token = document.querySelector('meta[name="csrf-token"]').getAttribute('content')
           this.$store.dispatch('fetchTasks')
     },
     watch: {
