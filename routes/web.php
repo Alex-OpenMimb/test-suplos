@@ -20,11 +20,11 @@ Route::get('/', function () {
 Route::get('/tasks', [TaskController::class, 'index']);
 Route::get('/tasks/{status}', [TaskController::class, 'filter']);
 Route::post('/tasks', [TaskController::class, 'store']);
-Route::put('/task/complete/{id}', [TaskController::class, 'complete']);
-
+Route::put('/task/complete/{task}', [TaskController::class, 'complete']);
+Route::delete('/tasks/{task}', [TaskController::class, 'destroy']);
 //Route::post('/tasks/store', [TaskController::class, 'store']);
 
-//Route::delete('/tasks/{id}', [TaskController::class, 'destroy']);
+
 
 Route::get('/csrf-token', function () {
     return response()->json(['token' => csrf_token()]);

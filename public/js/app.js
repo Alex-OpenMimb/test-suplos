@@ -1844,27 +1844,27 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
       });
     },
     completeTask: function completeTask(taskId) {
+      var _this2 = this;
       // Se utiliza la acción 'completeTask'
 
-      this.$store.dispatch('completeTask', {
-        taskId: taskId,
-        token: this.token
-      }).then(function () {
-        //this.$store.dispatch('fetchTasks')
+      this.$store.dispatch('completeTask', taskId).then(function () {
+        _this2.$store.dispatch('fetchTasks');
       })["catch"](function (error) {
         console.error('Error completing task:', error);
       });
     },
     deleteTask: function deleteTask(taskId) {
+      var _this3 = this;
       // Se utiliza la acción 'deleteTask'
-      this.$store.dispatch('deleteTask', taskId)["catch"](function (error) {
-        console.error('Error deleting task:', error);
+      this.$store.dispatch('deleteTask', taskId).then(function (error) {
+        _this3.$store.dispatch('fetchTasks');
+      })["catch"](function (error) {
+        console.error('Error completing task:', error);
       });
     }
   }),
   mounted: function mounted() {
-    this.token = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
-    console.log(this.token);
+    ///this.token = document.querySelector('meta[name="csrf-token"]').getAttribute('content')
     this.$store.dispatch('fetchTasks');
   },
   watch: {
@@ -2137,9 +2137,11 @@ __webpack_require__.r(__webpack_exports__);
 
 vue__WEBPACK_IMPORTED_MODULE_3__["default"].use(vuex__WEBPACK_IMPORTED_MODULE_4__["default"]);
 // Configuración global de Axios
+//let token = document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+console.log(window.myToken.csrfToken);
 (axios__WEBPACK_IMPORTED_MODULE_2___default().defaults).baseURL = 'http://127.0.0.1:8000'; // Cambia esto a tu URL base si es necesario
-//axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
-(axios__WEBPACK_IMPORTED_MODULE_2___default().defaults).headers.common['X-CSRF-TOKEN'] = window.csrfToken;
+(axios__WEBPACK_IMPORTED_MODULE_2___default().defaults).headers.common['X-Requested-With'] = 'XMLHttpRequest';
+(axios__WEBPACK_IMPORTED_MODULE_2___default().defaults).headers.common['X-CSRF-TOKEN'] = window.myToken.csrfToken;
 var app = new vue__WEBPACK_IMPORTED_MODULE_3__["default"]({
   el: '#app',
   store: _store__WEBPACK_IMPORTED_MODULE_1__["default"],
@@ -2237,11 +2239,9 @@ vue__WEBPACK_IMPORTED_MODULE_1__["default"].use(vuex__WEBPACK_IMPORTED_MODULE_2_
         console.error("Error adding task:", error);
       });
     },
-    completeTask: function completeTask(_ref4, payload) {
+    completeTask: function completeTask(_ref4, id) {
       var commit = _ref4.commit;
-      var taskId = payload.taskId,
-        token = payload.token;
-      axios__WEBPACK_IMPORTED_MODULE_0___default().put("/task/complete/".concat(taskId)).then(function (response) {
+      axios__WEBPACK_IMPORTED_MODULE_0___default().put("/task/complete/".concat(id)).then(function (response) {
         console.log(response.data);
       });
     },

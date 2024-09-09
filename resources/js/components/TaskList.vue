@@ -150,22 +150,23 @@ export default {
         completeTask(taskId) {
             // Se utiliza la acción 'completeTask'
 
-            this.$store.dispatch('completeTask',  { taskId, token: this.token }).then(()=>{
-                //this.$store.dispatch('fetchTasks')
+            this.$store.dispatch('completeTask',  taskId).then(()=>{
+                this.$store.dispatch('fetchTasks')
             }).catch(error => {
                 console.error('Error completing task:', error);
             });
         },
         deleteTask(taskId) {
             // Se utiliza la acción 'deleteTask'
-            this.$store.dispatch('deleteTask', taskId).catch(error => {
-                console.error('Error deleting task:', error);
+            this.$store.dispatch('deleteTask', taskId).then(error => {
+                this.$store.dispatch('fetchTasks')
+            }).catch(error => {
+                console.error('Error completing task:', error);
             });
         }
     },
     mounted() {
-          this.token = document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-          console.log(  this.token )
+          ///this.token = document.querySelector('meta[name="csrf-token"]').getAttribute('content')
           this.$store.dispatch('fetchTasks')
     },
     watch: {

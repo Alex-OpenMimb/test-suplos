@@ -98,13 +98,16 @@ class TaskController extends Controller
       }
 
 
-      public function complete( $id )
+      public function complete( Task $task )
       {
-          return response()->json([
-              'response'     => 'complete',
-              'status'      => true,
-              'code'        => 200,
-          ]);
+          try {
+              $task->completed = 1;
+              $task->save();
+              return $this->responseMessage( 'Task completed', true, 200 );
+          }catch (\Exception $e){
+              $message = $e->getMessage();
+              return  $this->responseMessage( $message, false, 500 );
+          }
       }
 
 
@@ -129,16 +132,15 @@ class TaskController extends Controller
     }
 
     // Eliminar tarea
-    public function destroy($id)
+    public function destroy(Task $task)
     {
-        $task = Task::find($id);
+        try {
+            $task->delete();
+            return $this->responseMessage( 'Task deleted', true, 200 );
 
-        if(!$task) {
-            return redirect()->back()->with('error', 'Task not found.');
+        }catch ( \Exception $e){
+            $message = $e->getMessage();
+            return  $this->responseMessage( $message, false, 500 );
         }
-
-        $task->delete();
-
-        return redirect()->back()->with('success', 'Task deleted successfully.');
     }
 }

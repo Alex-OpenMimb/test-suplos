@@ -72,9 +72,8 @@ export default new Vuex.Store({
 
                     console.error("Error adding task:", error);
                 });
-        },completeTask({ commit }, payload){
-            const { taskId, token } = payload;
-              axios.put(`/task/complete/${taskId}`).then(response=>{
+        },completeTask({ commit }, id){
+              axios.put(`/task/complete/${id}`).then(response=>{
                       console.log(response.data)
                   })
         },

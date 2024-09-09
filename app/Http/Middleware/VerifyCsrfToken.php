@@ -13,5 +13,7 @@ class VerifyCsrfToken extends Middleware
      */
     protected $except = [
         '/tasks',
+        'task/complete/6',
+        '/tasks/6'
     ];
 }
